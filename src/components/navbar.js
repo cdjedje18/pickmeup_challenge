@@ -1,9 +1,10 @@
-
+import React from 'react';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 
 export const NavBar = () => {
     return (
-        <div>
-            <h1>Nav bar</h1>
-        </div>
+        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Navbar.Brand href="#home">FindMe</Navbar.Brand>
+        </Navbar>
     )
 }
