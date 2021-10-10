@@ -7,9 +7,8 @@ export const Home = () => {
     const [locations, setLocations] = useState(null)
 
     const options = {
-        enableHighAccuracy: true,
-        timeout: 5000,
-        maximumAge: 0,
+        enableHighAccuracy: false,
+        timeout: 5000
     };
 
     useEffect(() => {
@@ -17,6 +16,7 @@ export const Home = () => {
             console.log("GeoLocation is Available!");
         } else {
             console.log("Sorry Not available!");
+            alert("GeoLocation not Supported")
         }
     }, [])
 
@@ -27,12 +27,7 @@ export const Home = () => {
                 if (result.state === "granted") {
                     console.log(result.state);
                     //If granted then you can directly call your function here
-                    navigator.geolocation.getCurrentPosition((position) => {
-                        console.log(position.coords)
-                        // console.log("Latitude is :", position.coords.latitude);
-                        // console.log("Longitude is :", position.coords.longitude);
-                        setLocations({ center: { lat: position.coords.latitude, lng: position.coords.longitude }, zoom: 11 })
-                    });
+                    navigator.geolocation.getCurrentPosition(success);
                 } else if (result.state === "prompt") {
                     navigator.geolocation.getCurrentPosition(success, errors, options);
                 } else if (result.state === "denied") {
@@ -42,16 +37,14 @@ export const Home = () => {
                     console.log(result.state);
                 };
             });
+
     }
 
 
-    const success = (pos) => {
-        var crd = pos.coords;
-
-        console.log("Your current position is:");
-        console.log(`Latitude : ${crd.latitude}`);
-        console.log(`Longitude: ${crd.longitude}`);
-        console.log(`More or less ${crd.accuracy} meters.`);
+    const success = (position) => {
+        console.log("Latitude is :", position.coords.latitude);
+        console.log("Longitude is :", position.coords.longitude);
+        setLocations({ center: { lat: position.coords.latitude, lng: position.coords.longitude }, zoom: 11 })
     }
 
     const errors = (err) => {
